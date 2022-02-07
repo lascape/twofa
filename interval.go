@@ -1,4 +1,4 @@
-package main
+package _fa
 
 import (
 	"crypto/hmac"

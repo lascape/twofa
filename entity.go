@@ -1,4 +1,4 @@
-package main
+package _fa
 
 type Token struct {
 	code    int
