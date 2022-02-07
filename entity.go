@@ -1,4 +1,4 @@
-package _fa
+package twofa
 
 type Token struct {
 	code    int

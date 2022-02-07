@@ -1,4 +1,4 @@
-package _fa
+package twofa
 
 import (
 	"crypto/hmac"
