@@ -5,6 +5,6 @@ import (
 )
 
 func TestGenerate(t *testing.T) {
-	generate := Generate("XXQLGCZHKY6HMEUU")
+	generate := Generate("NTHEE6VLH7DLFRSP")
 	t.Log(generate)
 }
