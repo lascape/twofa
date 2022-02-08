@@ -1,24 +1,25 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"os"
 
 	"github.com/golandscape/twofa/generate"
 )
 
 func main() {
-	secret := flag.String("secret", "", "秘钥")
-	flag.Parse()
-
-	if *secret == "" {
+	if len(os.Args) < 2 {
 		fmt.Println("secret must not empty")
+		return
 	}
 
-	authenticator, err := generate.Generate(*secret)
+	secret := os.Args[1]
+
+	authenticator, err := generate.Generate(secret)
 	if err != nil {
 		fmt.Println("err:", err)
 		return
 	}
+
 	fmt.Printf("result:%+v\n", authenticator)
 }

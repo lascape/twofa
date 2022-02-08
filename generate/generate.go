@@ -7,13 +7,17 @@ import (
 	"encoding/binary"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
 //Generate 计算Time-based One-time Password 数字
 func Generate(secret string) (Authenticator, error) {
+	secret = strings.Replace(secret, " ", "", -1)
+	secret = strings.ToUpper(secret)
+
 	t := time.Now().Unix()
-	
+
 	count := uint64(t) / 30
 	key, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
 	if err != nil {
