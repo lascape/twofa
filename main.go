@@ -15,11 +15,9 @@ func main() {
 
 	secret := os.Args[1]
 
-	authenticator, err := generate.Generate(secret)
-	if err != nil {
-		fmt.Println("err:", err)
-		return
+	authenticator := generate.Generate(secret)
+	if authenticator.Error != nil {
+		panic(authenticator.Error)
 	}
-
 	fmt.Printf("result:%+v\n", authenticator)
 }

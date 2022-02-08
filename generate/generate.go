@@ -20,7 +20,7 @@ func Generate(secret string) Authenticator {
 	count := uint64(t) / 30
 	key, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
 	if err != nil {
-		panic(err)
+		return Authenticator{Error: err}
 	}
 
 	codeInt := hotp(key, count, 6)
