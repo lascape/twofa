@@ -6,13 +6,12 @@ import (
 	"encoding/base32"
 	"encoding/binary"
 	"fmt"
-	"strconv"
 	"strings"
 	"time"
 )
 
-//Generate 计算Time-based One-time Password 数字
-func Generate(secret string) (Authenticator, error) {
+//Generate generate authenticator code
+func Generate(secret string) Authenticator {
 	secret = strings.Replace(secret, " ", "", -1)
 	secret = strings.ToUpper(secret)
 
@@ -21,30 +20,23 @@ func Generate(secret string) (Authenticator, error) {
 	count := uint64(t) / 30
 	key, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
 	if err != nil {
-		return Authenticator{}, err
+		panic(err)
 	}
 
 	codeInt := hotp(key, count, 6)
-	code, err := codeAlignment(codeInt)
-	if err != nil {
-		return Authenticator{}, err
-	}
+	code := codeAlignment(codeInt)
 
 	return Authenticator{
 		Secret: secret,
 		Expire: int(30 - (t % 30)),
 		Code:   code,
-	}, nil
+	}
 }
 
-func codeAlignment(code int) (int, error) {
+func codeAlignment(code int) string {
 	intFormat := fmt.Sprintf("%%0%dd", 6)
 	codeStr := fmt.Sprintf(intFormat, code)
-	atoi, err := strconv.Atoi(codeStr)
-	if err != nil {
-		return 0, err
-	}
-	return atoi, nil
+	return codeStr
 }
 
 func hotp(key []byte, counter uint64, digits int) int {
@@ -53,7 +45,6 @@ func hotp(key []byte, counter uint64, digits int) int {
 	sum := h.Sum(nil)
 	v := binary.BigEndian.Uint32(sum[sum[len(sum)-1]&0x0F:]) & 0x7FFFFFFF
 	d := uint32(1)
-	//取十进制的余数
 	for i := 0; i < digits && i < 8; i++ {
 		d *= 10
 	}

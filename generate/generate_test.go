@@ -5,10 +5,9 @@ import (
 )
 
 func TestGenerate(t *testing.T) {
-	authenticator, err := Generate("WRQLGCZHKY6HMEL4")
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	authenticator := Generate("WRQLGCZHKY6HMEL4")
 	t.Log(authenticator)
+
+	alignment := codeAlignment(12345)
+	t.Log(alignment)
 }
