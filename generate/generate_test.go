@@ -1,11 +1,15 @@
 package generate
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestGenerate(t *testing.T) {
-	authenticator := Generate("WRQLGCZHKY6HMEL4")
+	secret := Secret()
+	fmt.Println(secret, len(secret))
+
+	authenticator := Generate(secret)
 	t.Log(authenticator)
 
 	alignment := codeAlignment(12345)
