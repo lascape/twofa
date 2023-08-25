@@ -11,11 +11,11 @@ import (
 )
 
 //Generate generate authenticator code
-func Generate(secret string) Authenticator {
+func Generate(secret string, now time.Time) Authenticator {
 	secret = strings.Replace(secret, " ", "", -1)
 	secret = strings.ToUpper(secret)
 
-	t := time.Now().Unix()
+	t := now.Unix()
 
 	count := uint64(t) / 30
 	key, err := base32.StdEncoding.WithPadding(base32.NoPadding).DecodeString(secret)
